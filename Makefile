@@ -6,7 +6,7 @@ LIBFT = libft/libft.a
 	
 all: $(NAME)
 
-$(NAME): $(SRC:=.o) $(LIBFT)
+$(NAME): $(LIBFT) $(SRC:=.o)
 ifneq (,$(wildcard libft/))
 	ar rcs $(NAME) $^
 else
@@ -17,10 +17,14 @@ $(LIBFT):
 ifneq (,$(wildcard libft/))
 	libft/make re
 else
-	@echo "Make sure libft folder exists inside this folder"
+	make install
 endif
 
-.PHONY: clean fclean re all
+.PHONY: clean fclean re all install
+
+install:
+	@git clone https://github.com/bascb/42_libft.git libft
+	@echo "libft cloned to libft folder"
 
 clean:
 	rm -f *.o
