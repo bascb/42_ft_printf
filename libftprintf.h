@@ -18,6 +18,7 @@
 # include "libft.h"
 
 /* Recreation of printf by 42 */
-int	ft_printf(const char *, ...);
+int	ft_printf(const char *format, ...)
+	__attribute__((format(printf, 1, 2)));
 
 #endif
