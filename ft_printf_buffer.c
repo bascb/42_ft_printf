@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_buffer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: bcastelo <bcastelo@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 10:28:30 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/04 11:13:08 by bcastelo         ###   ########.fr       */
+/*   Created: 2022/11/13 19:40:18 by bcastelo          #+#    #+#             */
+/*   Updated: 2022/11/13 19:40:24 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-void	ft_printf_buffer_add(char *str, char c);
-
-/* Recreation of printf by 42 */
-int	ft_printf(const char *format, ...)
+void	ft_printf_buffer_add(char *str, char c)
 {
-	ft_printf_buffer_add((char *) format, 0);
-	return (1);
+	if (str)
+		ft_putstr_fd(str, 1);
+	if (c)
+		ft_putchar_fd(c, 1);
 }
