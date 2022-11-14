@@ -6,13 +6,13 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:28:30 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/14 18:20:17 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/14 22:00:25 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-void	ft_printf_buffer_add(t_list **lst, char *str, char c);
+void	ft_printf_buffer_add(t_list **lst, char *str, size_t size);
 
 int		ft_printf_buffer_output(t_list **lst);
 
@@ -64,6 +64,7 @@ static char	*ft_print_conversion(char *f, t_list **lst, va_list	arguments)
 		ft_printf_hex(va_arg(arguments, int), flags, lst, *(f + 1 + f_size));
 	if (*(f + 1 + f_size) == 'p')
 		ft_printf_pointer(va_arg(arguments, unsigned long int), flags, lst);
+	free(flags);
 	return (f + 2 + f_size);
 }
 
@@ -85,7 +86,7 @@ int	ft_printf(const char *format, ...)
 			f = ft_print_conversion(f, buffer_lst, arguments);
 		else
 		{
-			ft_printf_buffer_add(buffer_lst, NULL, *f);
+			ft_printf_buffer_add(buffer_lst, f, 1);
 			if (*f == '%')
 				f++;
 			f++;
