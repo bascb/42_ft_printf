@@ -1,7 +1,8 @@
 NAME = libftprintf.a
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-SRC = ft_printf ft_printf_buffer
+SRC = ft_printf ft_printf_buffer ft_printf_str ft_printf_chr ft_printf_int\
+	ft_printf_uns ft_printf_hex ft_printf_pointer
 LIBFT = libft.a
 
 RED = \033[0;91m

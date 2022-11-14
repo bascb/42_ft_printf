@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_printf_hex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 10:24:08 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/14 14:18:34 by bcastelo         ###   ########.fr       */
+/*   Created: 2022/11/14 16:02:32 by bcastelo          #+#    #+#             */
+/*   Updated: 2022/11/14 17:17:09 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
+#include "libftprintf.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdarg.h>
-# include "libft.h"
+void	ft_printf_buffer_add(t_list **lst, char *str, char c);
 
-/* Recreation of printf by 42 */
-int	ft_printf(const char *format, ...)
-	__attribute__((format(printf, 1, 2)));
-
-#endif
+void	ft_printf_hex(int n, char *flags, t_list **lst, char c)
+{
+	(void) flags;
+	if (c == 'x')
+		ft_printf_buffer_add(lst, ft_utoa_base(n, "0123456789abcdef"), 0);
+	else
+		ft_printf_buffer_add(lst, ft_utoa_base(n, "0123456789ABCDEF"), 0);
+}

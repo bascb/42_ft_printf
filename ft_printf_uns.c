@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_printf_uns.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 10:24:08 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/14 14:18:34 by bcastelo         ###   ########.fr       */
+/*   Created: 2022/11/14 15:48:08 by bcastelo          #+#    #+#             */
+/*   Updated: 2022/11/14 16:12:16 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
+#include "libftprintf.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdarg.h>
-# include "libft.h"
+void	ft_printf_buffer_add(t_list **lst, char *str, char c);
 
-/* Recreation of printf by 42 */
-int	ft_printf(const char *format, ...)
-	__attribute__((format(printf, 1, 2)));
-
-#endif
+void	ft_printf_uns(unsigned int n, char *flags, t_list **lst)
+{
+	(void) flags;
+	ft_printf_buffer_add(lst, ft_utoa(n), 0);
+}
