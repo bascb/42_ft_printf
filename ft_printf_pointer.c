@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 17:01:01 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/14 22:42:10 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:00:03 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_printf_buffer_add(t_list **lst, char *str, size_t size);
 
-void	ft_printf_pointer(unsigned long int n, char *flags, t_list **lst)
+void	ft_printf_pointer(unsigned long int n, t_flags *flags, t_list **lst)
 {
 	char	*header;
 	char	*number;

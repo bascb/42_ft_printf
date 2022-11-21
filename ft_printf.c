@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:28:30 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/14 22:00:25 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/21 18:24:20 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,69 @@ void	ft_printf_buffer_add(t_list **lst, char *str, size_t size);
 
 int		ft_printf_buffer_output(t_list **lst);
 
-void	ft_printf_str(char *str, char *flags, t_list **lst);
+void	ft_printf_str(char *str, t_flags *flags, t_list **lst);
 
-void	ft_printf_chr(char c, char *flags, t_list **lst);
+void	ft_printf_chr(char c, t_flags *flags, t_list **lst);
 
-void	ft_printf_int(int n, char *flags, t_list **lst);
+void	ft_printf_int(int n, t_flags *flags, t_list **lst);
 
-void	ft_printf_uns(unsigned int n, char *flags, t_list **lst);
+void	ft_printf_uns(unsigned int n, t_flags *flags, t_list **lst);
 
-void	ft_printf_hex(int n, char *flags, t_list **lst, char c);
+void	ft_printf_hex(int n, t_flags *flags, t_list **lst, char c);
 
-void	ft_printf_pointer(unsigned long int n, char *flags, t_list **lst);
+void	ft_printf_pointer(unsigned long int n, t_flags *flags, t_list **lst);
 
-static char	*ft_get_flags(char *f)
+static t_flags	*ft_get_flags(char *f)
 {
 	char	*end;
 	char	*flags_set;
-	char	*flags;
+	int		i;
+	int		*start;
+	t_flags	*flags;
 
-	flags_set = "-0.# +123456789";
-	end = f;
-	while (ft_charinset(*end, flags_set))
-		end++;
-	flags = ft_calloc(end - f + 1, sizeof(char));
+	flags_set = "+ #-0";
+	flags = ft_calloc(1, sizeof(t_flags));
 	if (!flags)
 		return (NULL);
-	ft_strlcpy(flags, f, end - f + 1);
+	end = f;
+	start = &(flags->plus);
+	while (ft_charinset(*end, flags_set))
+	{
+		i = -1;
+		while (++i < 5)
+			if (*end == flags_set[i])
+				start[i] = 1;
+		end++;
+	}
+	flags->width = ft_atoi(end);
+	while (ft_charinset(*end, "0123456789"))
+		end++;
+	flags->length = end - f;
 	return (flags);
+}
+
+static void	ft_get_precision(char *f, t_flags *flags)
+{
+	char	*end;
+
+	end = f;
+	if (*end != '.')
+		return ;
+	end++;
+	flags->precision = ft_atoi(end);
+	while (ft_charinset(*end, "0123456789"))
+		end++;
+	flags->length = end - f;
 }
 
 static char	*ft_print_conversion(char *f, t_list **lst, va_list	*arguments)
 {
-	char	*flags;
+	t_flags	*flags;
 	int		f_size;
 
 	flags = ft_get_flags(f + 1);
-	f_size = ft_strlen(flags);
+	ft_get_precision(f + 1, flags);
+	f_size = flags->length;
 	if (*(f + 1 + f_size) == 's')
 		ft_printf_str(va_arg(*arguments, char *), flags, lst);
 	if (*(f + 1 + f_size) == 'c')
