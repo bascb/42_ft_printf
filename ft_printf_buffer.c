@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libftprintf.h"
-#include <stdio.h>
 
 typedef struct s_str
 {
@@ -52,7 +51,6 @@ void	ft_strncat(char *dest, char *src, size_t n, size_t buffer_size)
 
 	i = ft_strlen(dest);
 	j = 0;
-//	printf("Dest: %s Src: %s i %lu n %lu b size %lu\n", dest, src, i, n, buffer_size);
 	while (j < n && i < buffer_size)
 	{
 		dest[i] = src[j];
@@ -102,7 +100,6 @@ int	ft_printf_buffer_output(t_list **lst)
 		next = next->next;
 	}
 	write(1, buffer, buff_size);
-	//ft_putstr_fd(buffer, 1);
 	ft_lstclear(lst, ft_del);
 	free(buffer);
 	free(lst);

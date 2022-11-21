@@ -45,7 +45,7 @@ static char	*ft_get_flags(char *f)
 	return (flags);
 }
 
-static char	*ft_print_conversion(char *f, t_list **lst, va_list	arguments)
+static char	*ft_print_conversion(char *f, t_list **lst, va_list	*arguments)
 {
 	char	*flags;
 	int		f_size;
@@ -53,17 +53,17 @@ static char	*ft_print_conversion(char *f, t_list **lst, va_list	arguments)
 	flags = ft_get_flags(f + 1);
 	f_size = ft_strlen(flags);
 	if (*(f + 1 + f_size) == 's')
-		ft_printf_str(va_arg(arguments, char *), flags, lst);
+		ft_printf_str(va_arg(*arguments, char *), flags, lst);
 	if (*(f + 1 + f_size) == 'c')
-		ft_printf_chr(va_arg(arguments, int), flags, lst);
+		ft_printf_chr(va_arg(*arguments, int), flags, lst);
 	if (*(f + 1 + f_size) == 'i' || *(f + 1 + f_size) == 'd')
-		ft_printf_int(va_arg(arguments, int), flags, lst);
+		ft_printf_int(va_arg(*arguments, int), flags, lst);
 	if (*(f + 1 + f_size) == 'u')
-		ft_printf_uns(va_arg(arguments, unsigned int), flags, lst);
+		ft_printf_uns(va_arg(*arguments, unsigned int), flags, lst);
 	if (*(f + 1 + f_size) == 'x' || *(f + 1 + f_size) == 'X')
-		ft_printf_hex(va_arg(arguments, int), flags, lst, *(f + 1 + f_size));
+		ft_printf_hex(va_arg(*arguments, int), flags, lst, *(f + 1 + f_size));
 	if (*(f + 1 + f_size) == 'p')
-		ft_printf_pointer(va_arg(arguments, unsigned long int), flags, lst);
+		ft_printf_pointer(va_arg(*arguments, unsigned long int), flags, lst);
 	free(flags);
 	return (f + 2 + f_size);
 }
@@ -83,7 +83,7 @@ int	ft_printf(const char *format, ...)
 	while (*f)
 	{
 		if (*f == '%' && *(f + 1) != '%')
-			f = ft_print_conversion(f, buffer_lst, arguments);
+			f = ft_print_conversion(f, buffer_lst, &arguments);
 		else
 		{
 			ft_printf_buffer_add(buffer_lst, f, 1);

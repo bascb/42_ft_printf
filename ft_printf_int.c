@@ -17,8 +17,18 @@ void	ft_printf_buffer_add(t_list **lst, char *str, size_t size);
 void	ft_printf_int(int n, char *flags, t_list **lst)
 {
 	char	*number;
+	char	signal;
 
-	(void) flags;
+	if (ft_charinset('+', flags) && n >= 0)
+	{
+		signal = '+';
+		ft_printf_buffer_add(lst, &signal, 1);
+	}
+	if (ft_charinset(' ', flags) && !ft_charinset('+', flags) && n >= 0)
+	{
+		signal = ' ';
+		ft_printf_buffer_add(lst, &signal, 1);
+	}
 	number = ft_itoa(n);
 	ft_printf_buffer_add(lst, number, ft_strlen(number));
 	free(number);
