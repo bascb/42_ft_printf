@@ -27,7 +27,9 @@ endif
 	@mv libft.a $(NAME)
 	@echo "$(GREEN)libftprintf.a created"
 
-.PHONY: clean fclean re all install uninstall update
+.PHONY: clean fclean re all install uninstall update bonus
+
+bonus: re
 
 install:
 ifeq (,$(wildcard libft/))

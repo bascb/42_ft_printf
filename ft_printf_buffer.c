@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 19:40:18 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/14 23:15:50 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/22 14:24:02 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,18 @@ void	ft_del(void *data)
 	free(d);
 }
 
-void	ft_strncat(char *dest, char *src, size_t n, size_t buffer_size)
+size_t	ft_strncat(char *dest, t_str *content, size_t buffer_size, size_t i)
 {
-	size_t	i;
 	size_t	j;
 
-	i = ft_strlen(dest);
 	j = 0;
-	while (j < n && i < buffer_size)
+	while (j < content->size && i < buffer_size)
 	{
-		dest[i] = src[j];
+		dest[i] = content->str[j];
 		i++;
 		j++;
 	}
+	return (i);
 }
 
 void	ft_printf_buffer_add(t_list **lst, char *str, size_t size)
@@ -80,9 +79,9 @@ void	ft_printf_buffer_add(t_list **lst, char *str, size_t size)
 int	ft_printf_buffer_output(t_list **lst)
 {
 	size_t	buff_size;
+	size_t	i;
 	char	*buffer;
 	t_list	*next;
-	t_str	*n;
 
 	buff_size = ft_printf_buffer_size(lst);
 	buffer = ft_calloc(buff_size + 1, sizeof(char));
@@ -93,10 +92,10 @@ int	ft_printf_buffer_output(t_list **lst)
 		return (-1);
 	}
 	next = *lst;
+	i = 0;
 	while (next)
 	{
-		n = (t_str *) next->content;
-		ft_strncat(buffer, n->str, n->size, buff_size);
+		i = ft_strncat(buffer, next->content, buff_size, i);
 		next = next->next;
 	}
 	write(1, buffer, buff_size);

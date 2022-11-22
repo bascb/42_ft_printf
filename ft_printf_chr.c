@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:16:44 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/21 18:24:05 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/22 13:44:13 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ void	ft_printf_chr(char c, t_flags *flags, t_list **lst)
 	new[0] = c;
 	if (flags->width)
 		new = ft_printf_width(new, flags);
-	ft_printf_buffer_add(lst, new, ft_strlen(new));
+	if (!c)
+		ft_printf_buffer_add(lst, new, 1);
+	else
+		ft_printf_buffer_add(lst, new, ft_strlen(new));
 	free(new);
 }

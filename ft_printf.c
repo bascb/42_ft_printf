@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:28:30 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/21 18:24:20 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:08:53 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	ft_get_precision(char *f, t_flags *flags)
 	flags->precision = ft_atoi(end);
 	while (ft_charinset(*end, "0123456789"))
 		end++;
-	flags->length = end - f;
+	flags->length += end - f;
 }
 
 static char	*ft_print_conversion(char *f, t_list **lst, va_list	*arguments)
@@ -77,7 +77,7 @@ static char	*ft_print_conversion(char *f, t_list **lst, va_list	*arguments)
 	int		f_size;
 
 	flags = ft_get_flags(f + 1);
-	ft_get_precision(f + 1, flags);
+	ft_get_precision(f + 1 + flags->length, flags);
 	f_size = flags->length;
 	if (*(f + 1 + f_size) == 's')
 		ft_printf_str(va_arg(*arguments, char *), flags, lst);

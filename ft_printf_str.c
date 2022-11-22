@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:22:26 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/21 16:02:22 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/22 14:35:40 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ void	ft_printf_str(char *str, t_flags *flags, t_list **lst)
 	char	*new;
 
 	if (!str)
-		return ;
-	new = ft_strdup(str);
+		new = ft_strdup("");
+	else
+		new = ft_strdup(str);
 	if (flags->width)
 		new = ft_printf_width(new, flags);
 	ft_printf_buffer_add(lst, new, ft_strlen(new));
