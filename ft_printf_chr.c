@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:16:44 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/22 13:44:13 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/25 14:03:41 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,29 @@
 
 void	ft_printf_buffer_add(t_list **lst, char *str, size_t size);
 
-static char	*ft_printf_width(char *original, t_flags *flags)
+static void	ft_printf_width(char c, t_flags *flags, t_list **lst)
 {
 	char	*padding;
-	char	*new;
-	int		pad_size;
 
-	pad_size = flags->width - ft_strlen(original);
-	if (pad_size <= 0)
-		return (original);
-	padding = ft_calloc(pad_size + 1, sizeof(char));
+	padding = ft_calloc(flags->width + 1, sizeof(char));
 	if (!padding)
-		return (original);
-	if (flags->zero && !flags->minus)
-		ft_memset(padding, '0', pad_size);
-	else
-		ft_memset(padding, ' ', pad_size);
+	{
+		ft_printf_buffer_add(lst, &c, 1);
+		return ;
+	}
+	ft_memset(padding, ' ', flags->width);
 	if (flags->minus)
-		new = ft_strjoin(original, padding);
+		padding[0] = c;
 	else
-		new = ft_strjoin(padding, original);
-	free(original);
+		padding[flags->width - 1] = c;
+	ft_printf_buffer_add(lst, padding, flags->width);
 	free(padding);
-	return (new);
 }
 
 void	ft_printf_chr(char c, t_flags *flags, t_list **lst)
-{	
-	char	*new;
-
-	new = ft_calloc(2, sizeof(char));
-	if (!new)
-		return ;
-	new[0] = c;
-	if (flags->width)
-		new = ft_printf_width(new, flags);
-	if (!c)
-		ft_printf_buffer_add(lst, new, 1);
+{		
+	if (flags->width > 1)
+		ft_printf_width(c, flags, lst);
 	else
-		ft_printf_buffer_add(lst, new, ft_strlen(new));
-	free(new);
+		ft_printf_buffer_add(lst, &c, 1);
 }

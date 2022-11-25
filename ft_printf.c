@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:28:30 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/22 11:08:53 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:45:05 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,22 @@ void	ft_printf_hex(int n, t_flags *flags, t_list **lst, char c);
 
 void	ft_printf_pointer(unsigned long int n, t_flags *flags, t_list **lst);
 
-static void	ft_get_precision(char *f, t_flags *flags)
+static void	ft_get_precision(char *s, char *f, t_flags *flags)
 {
 	char	*end;
 
 	end = f;
 	if (*end != '.')
+	{
+		flags->length = end - s;
 		return ;
+	}
 	flags->precision_flag = 1;
 	end++;
 	flags->precision = ft_atoi(end);
 	while (ft_charinset(*end, "0123456789"))
 		end++;
-	flags->length += end - f;
+	flags->length = end - s;
 }
 
 static t_flags	*ft_get_flags(char *f)
@@ -68,8 +71,7 @@ static t_flags	*ft_get_flags(char *f)
 	flags->width = ft_atoi(end);
 	while (ft_charinset(*end, "0123456789"))
 		end++;
-	flags->length = end - f;
-	ft_get_precision(end, flags);
+	ft_get_precision(f, end, flags);
 	return (flags);
 }
 
@@ -77,9 +79,11 @@ static char	*ft_print_conversion(char *f, t_list **lst, va_list	*arguments)
 {
 	t_flags	*flags;
 	int		f_size;
+	int		step;
 
 	flags = ft_get_flags(f + 1);
 	f_size = flags->length;
+	step = 2 + f_size;
 	if (*(f + 1 + f_size) == 's')
 		ft_printf_str(va_arg(*arguments, char *), flags, lst);
 	else if (*(f + 1 + f_size) == 'c')
@@ -95,12 +99,9 @@ static char	*ft_print_conversion(char *f, t_list **lst, va_list	*arguments)
 	else if (*(f + 1 + f_size) == '%')
 		ft_printf_buffer_add(lst, f + 1 + f_size, 1);
 	else
-	{
-		free(flags);
-		return (f + 1);
-	}
+		step = 1;
 	free(flags);
-	return (f + 2 + f_size);
+	return (f + step);
 }
 
 /* Recreation of printf by 42 */
