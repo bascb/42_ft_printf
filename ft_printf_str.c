@@ -44,6 +44,8 @@ void	ft_printf_str(char *str, t_flags *flags, t_list **lst)
 	char	*new;
 
 	if (!str)
+		new = ft_strdup("(null)");
+	else if (!ft_strlen(str) || (flags->precision_flag && !flags->precision))
 		new = ft_strdup("");
 	else
 		new = ft_strdup(str);

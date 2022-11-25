@@ -38,10 +38,10 @@ static char	*ft_printf_precision(char *original, t_flags *flags)
 	int		pad_size;
 
 	pad_size = flags->precision - ft_strlen(original);
-	if (pad_size <= 0)
-		return (original);
 	if (ft_strchr(original, '+') || ft_strchr(original, '-'))
 		pad_size++;
+	if (pad_size <= 0)
+		return (original);
 	padding = ft_calloc(pad_size + 1, sizeof(char));
 	if (!padding)
 		return (original);
