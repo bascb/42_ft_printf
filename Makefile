@@ -15,44 +15,15 @@ $(NAME): $(LIBFT) $(SRC:=.o)
 	@ar rcs $(NAME) $(SRC:=.o)
 	
 $(LIBFT):
-ifeq (,$(wildcard libft/))
-	@make install
-else
-	@$(MAKE) -C libft fclean
-	@make update
-endif
 	@$(MAKE) -C libft bonus
 	@cp libft/libft.a .
 	@cp libft/libft.h .
 	@mv libft.a $(NAME)
 	@echo "$(GREEN)libftprintf.a created"
 
-.PHONY: clean fclean re all install uninstall update bonus
+.PHONY: clean fclean re all bonus
 
 bonus: re
-
-install:
-ifeq (,$(wildcard libft/))
-	@git clone https://github.com/bascb/42_libft.git libft
-	@echo "$(GREEN)libft cloned to libft folder"
-else
-	@echo "$(YELLOW) libft folder already exists"
-	@make update
-endif
-
-uninstall:
-	@rm -rf libft
-	@echo "$(YELLOW) libft folder removed"
-
-update:
-ifneq (,$(wildcard libft/))
-	@echo "$(YELLOW) updating libft library"
-	@git -C libft pull origin master
-	@echo "$(GREEN)libft library updated"
-else
-	@echo "$(YELLOW) libft folder do not exists"
-	@make install
-endif
 
 clean:
 	rm -f *.o

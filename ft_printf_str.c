@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:22:26 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/22 14:35:40 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/27 12:32:38 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,42 @@ static char	*ft_printf_width(char *original, t_flags *flags)
 	return (new);
 }
 
+static char	*ft_printf_precision(char *str, char *original, t_flags *flags)
+{
+	char	*new;
+
+	if (!str && flags->precision < 6)
+	{
+		new = ft_strdup("");
+		free(original);
+		return (new);
+	}
+	if (flags->precision >= (int ) ft_strlen(original))
+	{
+		new = ft_strdup(original);
+		free(original);
+		return (new);
+	}
+	new = ft_calloc(flags->precision + 1, sizeof(char));
+	if (!new)
+		return (NULL);
+	ft_strlcpy(new, original, flags->precision + 1);
+	free(original);
+	return (new);
+}
+
 void	ft_printf_str(char *str, t_flags *flags, t_list **lst)
 {
 	char	*new;
 
 	if (!str)
 		new = ft_strdup("(null)");
-	else if (!ft_strlen(str) || (flags->precision_flag && !flags->precision))
+	else if (!ft_strlen(str))
 		new = ft_strdup("");
 	else
 		new = ft_strdup(str);
+	if (flags->precision_flag)
+		new = ft_printf_precision(str, new, flags);
 	if (flags->width)
 		new = ft_printf_width(new, flags);
 	ft_printf_buffer_add(lst, new, ft_strlen(new));

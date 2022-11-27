@@ -6,7 +6,7 @@
 /*   By: bcastelo <bcastelo@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:32:44 by bcastelo          #+#    #+#             */
-/*   Updated: 2022/11/22 12:42:55 by bcastelo         ###   ########.fr       */
+/*   Updated: 2022/11/27 14:18:59 by bcastelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,18 @@ static char	*ft_printf_signal_flag(char *original, char c)
 	return (new);
 }
 
-static char	*ft_printf_precision(char *original, t_flags *flags)
+static char	*ft_printf_precision(int n, char *original, t_flags *flags)
 {
 	char	*padding;
 	char	*new;
 	int		pad_size;
 
+	if (!n && !flags->precision)
+	{
+		new = ft_strdup("");
+		free(original);
+		return (new);
+	}
 	pad_size = flags->precision - ft_strlen(original);
 	if (ft_strchr(original, '+') || ft_strchr(original, '-'))
 		pad_size++;
@@ -77,9 +83,11 @@ static char	*ft_printf_width(char *original, t_flags *flags)
 	padding = ft_calloc(pad_size + 1, sizeof(char));
 	if (!padding)
 		return (original);
-	if (flags->zero && !flags->minus)
+	if (flags->zero && !flags->minus && !flags->precision)
 		ft_memset(padding, '0', pad_size);
 	else
+		ft_memset(padding, ' ', pad_size);
+	if (flags->precision_flag && !flags->precision)
 		ft_memset(padding, ' ', pad_size);
 	if (flags->minus)
 		new = ft_strjoin(original, padding);
@@ -98,8 +106,8 @@ void	ft_printf_int(int n, t_flags *flags, t_list **lst)
 	number = ft_itoa(n);
 	if (flags->plus && n >= 0)
 		number = ft_printf_signal_flag(number, '+');
-	if (flags->precision)
-		number = ft_printf_precision(number, flags);
+	if (flags->precision_flag)
+		number = ft_printf_precision(n, number, flags);
 	if (flags->space && !flags->plus && n >= 0)
 		number = ft_printf_signal_flag(number, ' ');
 	if (flags->width)
